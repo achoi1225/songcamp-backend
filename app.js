@@ -1,8 +1,9 @@
 //external requires
 const express = require("express");
 const cors = require('cors');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const morgan = require("morgan");
+const logger = require("morgan");
 const { ValidationError } = require("sequelize");
 const cookieParser = require('cookie-parser');
 const bearerToken = require('express-bearer-token');
@@ -25,12 +26,23 @@ const app = express();
 // app.set("view engine", "pug");
 
 //external use statements
-app.use(cors({ origin: true }));
-app.use(morgan("dev"));
-app.use(cookieParser(cookieConfig));
+// app.use(cors({ origin: true }));
+// app.use(morgan("dev"));
+// app.use(cookieParser(cookieConfig));
+// app.use(express.json());
+// app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencode
+// app.use(express.static(path.join(__dirname, "public")));
+
+
+
+// app.use(cors({ origin: true }));
+app.use(cors({ origin: "http://localhost:3000" }));
+app.use(helmet({ hsts: false }));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencode
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 //internal use statements

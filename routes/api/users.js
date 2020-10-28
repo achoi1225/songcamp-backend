@@ -30,7 +30,7 @@ const sharedAuthValidations = [
 ];
 
 
-  // sign up
+  // SIGN UP - SEND TOKEN AND USER INFO
   router.post("/",
     signupValidations,
     sharedAuthValidations,
@@ -44,7 +44,6 @@ const sharedAuthValidations = [
       } = req.body;
       
       console.log("HERE!!!!");
-      alert("HERE!!!!");
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create(
       {
@@ -67,7 +66,7 @@ const sharedAuthValidations = [
 
 
 
-// sign in
+// SIGN IN - SEND TOKEN AND USER INFO
 router.post("/token", sharedAuthValidations,
   asyncHandler(async(req, res, next) => {
     const { email, password } = req.body;
@@ -91,12 +90,18 @@ router.post("/token", sharedAuthValidations,
   })
 );
 
+
 router.delete("/token", asyncHandler(async(req, res, next) => {
   res.clearCookie("accessToken");
   res.status(200).end();
 }))
 
 
+// DELETE TOKEN
+router.delete("/token", asyncHandler(async(req, res, next) => {
+  res.clearCookie("accessToken");
+  res.status(200).end();
+}))
 
 
 module.exports = router;
