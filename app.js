@@ -16,6 +16,9 @@ const { environment, cookieConfig } = require("./config");
 // const { userValidation } = require("./auth");
 
 const usersRouter = require("./routes/api/users");
+const artistsRouter = require("./routes/api/artists");
+const fansRouter = require("./routes/api/fans");
+const albumsRouter = require("./routes/api/albums");
 
 // const { Server } = require("http");
 
@@ -47,14 +50,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //internal use statements
 app.use("/api/users", usersRouter);
+app.use("/api/artists", artistsRouter);
+app.use("/api/fans", fansRouter);
+app.use("/api/albums", albumsRouter);
 
 // unhandled requests
-  app.use((req, res, next) => {
-    const error = new Error("Resource could not be found.");
-    error.errors = ["Resource could not be found."];
-    error.status = 404;
-    // res.render("404page");  //create 404 add button to go to home
-  });
+app.use((req, res, next) => {
+  const error = new Error("Resource could not be found.");
+  error.errors = ["Resource could not be found."];
+  error.status = 404;
+  // res.render("404page");  //create 404 add button to go to home
+});
 
 //sequelize errors
 app.use((error, req, res, next) => {

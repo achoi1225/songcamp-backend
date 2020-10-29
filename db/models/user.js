@@ -1,4 +1,7 @@
 'use strict';
+
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     email: {
@@ -15,13 +18,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING.BINARY
     },
+    artistName: {
+      allowNull: true,
+      type: DataTypes.STRING(50)
+    },
       artist: {
       allowNull: false,
       type: DataTypes.BOOLEAN
     },
-      label: {
+      bio: {
         allowNull: true,
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     },
       genre: {
         allowNull: true,

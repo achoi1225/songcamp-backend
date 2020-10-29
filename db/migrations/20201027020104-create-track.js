@@ -21,6 +21,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
+      trackUrl: {
+        allowNull: true,
+        type: Sequelize.STRING(100)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.BOOLEAN
     },
+    trackUrl: {
+      allowNull: true,
+      type: DataTypes.STRING(100)
+    },
   }, {});
   Track.associate = function(models) {
     Track.belongsTo(models.Album, { foreignKey: "albumId" }, { onDelete: "cascade", hooks:true });

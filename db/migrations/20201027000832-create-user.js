@@ -23,13 +23,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING.BINARY
       },
+      artistName: {
+        allowNull: true,
+        type: Sequelize.STRING(50)
+      },
       artist: {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      label: {
+      bio: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       genre: {
         allowNull: true,
