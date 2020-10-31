@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Follower = sequelize.define('Follower', {
-    followerId: {
+    followingId: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references: { model: 'Users' }

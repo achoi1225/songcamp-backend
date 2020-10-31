@@ -61,7 +61,7 @@ const sharedAuthValidations = [
     res.cookie("accessToken", token, { httpOnly: true });
 
     res.status(201).json({
-      user: { id: user.id, userName: user.userName },
+      user: { id: user.id, userName: user.userName, },
       token
     });
   })
@@ -69,35 +69,35 @@ const sharedAuthValidations = [
 
 
 
-// SIGN IN - SEND TOKEN AND USER INFO
-router.post("/token", sharedAuthValidations,
-  asyncHandler(async(req, res, next) => {
-    const { email, password } = req.body;
-    const user = await User.findOne(
-      {
-        where: { email }
-      }
-    );
+// // SIGN IN - SEND TOKEN AND USER INFO
+// router.post("/token", sharedAuthValidations,
+//   asyncHandler(async(req, res, next) => {
+//     const { email, password } = req.body;
+//     const user = await User.findOne(
+//       {
+//         where: { email }
+//       }
+//     );
 
-    if (!user || !user.validatePassword(password)) {
-      const error = new Error("Invalid credentials");
-      error.status = 401;
-      error.title = "Invalid credentials";
-      error.errors = ["Unable to authenticate provided information. Please check user name and/or password."];
-      return next(error);
-    }
+//     if (!user || !user.validatePassword(password)) {
+//       const error = new Error("Invalid credentials");
+//       error.status = 401;
+//       error.title = "Invalid credentials";
+//       error.errors = ["Unable to authenticate provided information. Please check user name and/or password."];
+//       return next(error);
+//     }
 
-    const token = getUserToken(user);
-    res.cookie("accessToken", token, { httpOnly: true });
-    res.json({ token, user: { id: user.id, userName: user.userName }});
-  })
-);
+//     const token = getUserToken(user);
+//     res.cookie("accessToken", token, { httpOnly: true });
+//     res.json({ token, user: { id: user.id, userName: user.userName }});
+//   })
+// );
 
-// DELETE TOKEN
-router.delete("/token", asyncHandler(async(req, res, next) => {
-  res.clearCookie("accessToken");
-  res.status(200).end();
-}))
+// // DELETE TOKEN
+// router.delete("/token", asyncHandler(async(req, res, next) => {
+//   res.clearCookie("accessToken");
+//   res.status(200).end();
+// }))
 
 
 module.exports = router;

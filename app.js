@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const logger = require("morgan");
 const { ValidationError } = require("sequelize");
 const cookieParser = require('cookie-parser');
-const bearerToken = require('express-bearer-token');
+// const bearerToken = require('express-bearer-token');
 const path = require("path");
 
 
@@ -19,6 +19,7 @@ const usersRouter = require("./routes/api/users");
 const artistsRouter = require("./routes/api/artists");
 const fansRouter = require("./routes/api/fans");
 const albumsRouter = require("./routes/api/albums");
+const followsRouter = require("./routes/api/follows");
 
 // const { Server } = require("http");
 
@@ -53,6 +54,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/artists", artistsRouter);
 app.use("/api/fans", fansRouter);
 app.use("/api/albums", albumsRouter);
+app.use("/api/follows", followsRouter);
 
 // unhandled requests
 app.use((req, res, next) => {

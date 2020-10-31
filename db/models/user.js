@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Follower, { foreignKey: "userId" });
-    User.hasMany(models.Follower, { foreignKey: "followerId" });
+    User.hasMany(models.Follower, { foreignKey: "followingId" });
   };
 
   User.prototype.validatePassword = function (password) {

@@ -40,8 +40,23 @@ router.post("/token", sharedAuthValidations,
 
     const token = getUserToken(user);
     res.cookie("accessToken", token, { httpOnly: true });
-    res.json({ token, user: { id: user.id, userName: user.userName, artistName: user.artistName, artist: user.artist }});
+    res.json({ token, user: { id: user.id, userName: user.userName, artistName: user.artistName, artist: user.artist, imgUrl: user.imgUrl }});
   })
 );
+
+
+// GET user data 
+router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+
+  const user = await User.findOne({
+      where: {
+          id: req.params.id,
+        },
+      attributes: {exclude: ['email','hashedPassword']}
+  })
+
+  res.json({user});
+
+}))
 
 module.exports = router;
