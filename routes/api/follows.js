@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { asyncHandler } = require("../utils");
-const { Follower } = require("../../db/models");
+const { Follower, User } = require("../../db/models");
 
 
 router.get('/:id(\\d+)', asyncHandler(async(req, res) => {
@@ -9,24 +9,29 @@ router.get('/:id(\\d+)', asyncHandler(async(req, res) => {
     const following = await Follower.findAll({
         where: {
             userId: userId
-        }
+        },
+        include: [
+            {model: User, attributes: {exclude: ['email','hashedPassword']}},
+        ]
     })
     
-    res.json({following});    
+    // console.log("FOLLOWING!!!", following[0].followingId)
+    res.json({...following});    
 }));
+
 
 router.post(`/:id(\\d+)`, asyncHandler( async(req, res) => {
     const userId = parseInt(req.params.id);
-    const followingId = parseInt(req.body.followingId);
+    const { followingId } = req.body;
 
-    console.log("FOLLOWING ID!!!!", followingId);
+    console.log("FOLLOWING ID!!!!", req.body);
 
-    const follow = await Follower.create({
+    const newFollow = await Follower.create({
         userId,
         followingId
     })
 
-    res.json({follow})
+    res.json({newFollow});
 }))
 
 module.exports = router;
