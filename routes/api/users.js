@@ -23,6 +23,77 @@ const sharedAuthValidations = [
 ];
 
 
+
+
+// SIGN IN - SEND TOKEN AND USER INFO
+router.post("/token", sharedAuthValidations,
+asyncHandler(async(req, res, next) => {
+  const { email, password } = req.body;
+  const user = await User.findOne(
+    {
+      where: { email }
+      }
+      );
+
+      if (!user || !user.validatePassword(password)) {
+        const error = new Error("Invalid credentials");
+        error.status = 401;
+        error.title = "Invalid credentials";
+        error.errors = ["Unable to authenticate provided information. Please check user name and/or password."];
+        return next(error);
+      }
+      
+      const token = getUserToken(user);
+      res.cookie("accessToken", token, { httpOnly: true });
+      res.json({ token, user: { id: user.id, userName: user.userName, artistName: user.artistName, artist: user.artist, imgUrl: user.imgUrl }});
+    })
+    );
+    
+    
+    // GET user data 
+    router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+      
+      const user = await User.findOne({
+        where: {
+          id: req.params.id,
+        },
+        attributes: {exclude: ['email','hashedPassword']}
+      })
+      
+      res.json({ user });
+      
+    }))
+    
+    
+// Make edits to user data
+router.patch('/:id(\\d+)', asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({
+        where: {
+            id: req.params.id
+          },
+        });
+      
+        let updatedUser;
+
+        if (user) {
+            if(req.body.hasOwnProperty("imgUrl")) {
+                console.log("imgurl confirmed")
+                updatedUser = await user.update({ imgUrl: req.body.imgUrl });
+
+            }
+            if (req.body.hasOwnProperty("bio")) {
+                console.log("bio confirmed")
+                updatedUser = user.update({ imgUrl: req.body.bio });
+            }
+              res.json({ updatedUser });
+              
+            } else {
+                console.log('Error from api/user/PUT - user not found!')
+                // next(listNotFoundError(req.params.id));
+            }
+}));
+                  
+
 // AWS
 const AWS = require("aws-sdk");
 const { awsKeys } = require("../../config");
@@ -73,15 +144,15 @@ router.put("/:id/photos",
     console.log("REQ BODY IMG URL!!!", req.body.imgUrl);
 
     const user = await User.findOne({
-           where: {
-             id: req.params.id
-           },
-         });
+          where: {
+            id: req.params.id
+          },
+        });
 
     
     if(!user) {
       console.log('Error from api/user/PUT - user not found!')
-     // next(listNotFoundError(req.params.id));
+    // next(listNotFoundError(req.params.id));
     } else {
       const updatedUser = await user.update(req.body);
       console.log("PHOTO UPLOAD SUCCESSFUL!");
@@ -91,69 +162,5 @@ router.put("/:id/photos",
     
   })
 )
-
-
-// SIGN IN - SEND TOKEN AND USER INFO
-router.post("/token", sharedAuthValidations,
-  asyncHandler(async(req, res, next) => {
-    const { email, password } = req.body;
-    const user = await User.findOne(
-      {
-        where: { email }
-      }
-    );
-
-    if (!user || !user.validatePassword(password)) {
-      const error = new Error("Invalid credentials");
-      error.status = 401;
-      error.title = "Invalid credentials";
-      error.errors = ["Unable to authenticate provided information. Please check user name and/or password."];
-      return next(error);
-    }
-
-    const token = getUserToken(user);
-    res.cookie("accessToken", token, { httpOnly: true });
-    res.json({ token, user: { id: user.id, userName: user.userName, artistName: user.artistName, artist: user.artist, imgUrl: user.imgUrl }});
-  })
-);
-
-
-// GET user data 
-router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
-
-  const user = await User.findOne({
-      where: {
-          id: req.params.id,
-        },
-      attributes: {exclude: ['email','hashedPassword']}
-  })
-
-  res.json({user});
-
-}))
-
-
-// Make edits to user data
-// router.put('/:id(\\d+)', asyncHandler(async (req, res, next) => {
-//   const user = await User.findOne({
-//     where: {
-//       id: req.params.id
-//     },
-//   });
-
-//   if (user) {
-//     if(req.body.hasOwnProperty("imgUrl")) {
-//       console.log("imgurl confirmed")
-//       await user.update({ imgUrl: req.body.imgUrl });
-//     } else if (req.body.hasOwnProperty("bio")) {
-//       console.log("bio confirmed")
-//       await user.update({ imgUrl: req.body.imgUrl });
-//     }
-//     res.json({ user });
-//   } else {
-//     console.log('Error from api/user/PUT - user not found!')
-//     // next(listNotFoundError(req.params.id));
-//   }
-// }));
-
+              
 module.exports = router;
