@@ -83,10 +83,10 @@ router.patch('/:id(\\d+)', asyncHandler(async (req, res, next) => {
             }
             if (req.body.hasOwnProperty("bio")) {
                 console.log("bio confirmed")
-                updatedUser = user.update({ imgUrl: req.body.bio });
+                updatedUser = await user.update({ bio: req.body.bio });
             }
               res.json({ updatedUser });
-              
+
             } else {
                 console.log('Error from api/user/PUT - user not found!')
                 // next(listNotFoundError(req.params.id));
