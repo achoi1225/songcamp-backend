@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     },
       genre: {
         allowNull: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING(50),
     },
       imgUrl: {
         allowNull: true,
@@ -43,6 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.hasMany(models.Follower, { foreignKey: "userId" });
     User.hasMany(models.Follower, { foreignKey: "followingId" });
+    // User.belongsTo(models.Genre, { foreignKey: "genreId" }, { onDelete: "cascade", hooks:true });
+
   };
 
   User.prototype.validatePassword = function (password) {

@@ -21,12 +21,12 @@ const sharedAuthValidations = [
   check("email")
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage("A valid email address is required")
+    .withMessage("A valid email address is required.")
     .isLength({ max: 100 })
-    .withMessage("Email address must be less than 100 characters"),
+    .withMessage("Email address must be less than 100 characters."),
   check("password")
     .exists({ checkFalsy: true })
-    .withMessage("User password is required"),
+    .withMessage("User password is required."),
 ];
 
 
@@ -35,7 +35,7 @@ const sharedAuthValidations = [
     signupValidations,
     sharedAuthValidations,
     handleValidationErrors,
-    asyncHandler(async(req, res) => {
+    asyncHandler(async(req, res, next) => {
       const {
         userName,
         email,

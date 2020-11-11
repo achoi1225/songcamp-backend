@@ -6,7 +6,6 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        autoIncrement: true,
         type: Sequelize.INTEGER
       },
       email: {
@@ -37,7 +36,7 @@ module.exports = {
       },
       genre: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
       },
       imgUrl: {
         allowNull: true,

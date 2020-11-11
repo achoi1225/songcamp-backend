@@ -1,0 +1,14 @@
+"Acoustic:string 
+Alternative:string 
+Ambient:string 
+Blues:string 
+Classical:string 
+Country:string 
+Electronic:string 
+Experimental:string 
+Folk:string Folk:string 
+Funk:string Hip-Hop/Rap:string 
+Jazz:string Metal:string 
+Pop:string 
+Punk:string 
+R&B/Soul:string   

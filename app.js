@@ -20,6 +20,7 @@ const artistsRouter = require("./routes/api/artists");
 const fansRouter = require("./routes/api/fans");
 const albumsRouter = require("./routes/api/albums");
 const followsRouter = require("./routes/api/follows");
+const genresRouter = require("./routes/api/genres");
 
 // const { Server } = require("http");
 
@@ -55,6 +56,7 @@ app.use("/api/artists", artistsRouter);
 app.use("/api/fans", fansRouter);
 app.use("/api/albums", albumsRouter);
 app.use("/api/follows", followsRouter);
+app.use("/api/genres", genresRouter);
 
 // unhandled requests
 app.use((req, res, next) => {
